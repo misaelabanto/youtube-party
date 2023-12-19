@@ -29,4 +29,8 @@ export const songRepository = {
 			)
 			.run($(addSongBody));
 	},
+
+	deleteSong: async (id: string) => {
+		return db.prepare<Song, [string]>('DELETE FROM songs WHERE id = ?').run(id);
+	},
 };
