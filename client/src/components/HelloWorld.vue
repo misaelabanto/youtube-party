@@ -1,17 +1,25 @@
 <script setup lang="ts">
+import { useCounterStore } from '@/stores/counter'
+
 defineProps<{
   msg: string
 }>()
+
+const counter = useCounterStore()
 </script>
 
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You’ve successfully created a project with
+      You've successfully created a project with
       <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
+      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
+      What's next?
     </h3>
+    <button @click="counter.decrement">-</button>
+    <span>{{ counter.count }}</span>
+    <button @click="counter.increment">+</button>
   </div>
 </template>
 
