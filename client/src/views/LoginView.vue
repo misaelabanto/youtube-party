@@ -1,11 +1,9 @@
 <template>
-  <div class="flex flex-col">
-    <YInput label="Nombre" />
-    <YButton class="mt-4">Ingresar</YButton>
+  <div>
+    <EditProfile />
   </div>
 </template>
 
 <script setup lang="ts">
-import YButton from '@/components/atoms/YButton.vue'
-import YInput from '@/components/atoms/YInput.vue'
+import EditProfile from '@/components/molecules/EditProfile.vue'
 </script>

@@ -1,5 +1,6 @@
 import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
+import 'vue3-emoji-picker/css'
 import './assets/main.css'
 
 import { createPinia } from 'pinia'
