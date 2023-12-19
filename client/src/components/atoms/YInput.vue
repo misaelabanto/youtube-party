@@ -12,8 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { watchDebounced } from '@vueuse/core'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 withDefaults(
   defineProps<{
@@ -28,14 +27,7 @@ withDefaults(
 )
 const value = ref('')
 const emit = defineEmits(['update:modelValue'])
-watchDebounced(
-  value,
-  (newValue) => {
-    console.log(newValue)
-  },
-  {
-    debounce: 1000,
-    maxWait: 5000
-  }
-)
+watch(value, (newValue) => {
+  emit('update:modelValue', newValue)
+})
 </script>

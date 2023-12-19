@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col">
     <YInput v-model="name" label="Nombre" placeholder="John Locke" />
-    <YButton class="mt-4">Ingresar</YButton>
     <YEmojiPicker />
+    <YButton @click="" class="mt-4">Ingresar</YButton>
   </div>
 </template>
 

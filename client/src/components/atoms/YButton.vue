@@ -1,5 +1,6 @@
 <template>
   <button
+    @click="$emit('click')"
     class="h-10 bg-purple-500 text-lg font-bold text-white hover:bg-purple-600 focus:ring-blue-200"
   >
     <slot />
@@ -10,4 +11,5 @@
 defineProps<{
   loading?: boolean
 }>()
+defineEmits(['click'])
 </script>
