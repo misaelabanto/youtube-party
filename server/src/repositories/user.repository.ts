@@ -4,7 +4,8 @@ import { $, type T$ } from '~/utils/$';
 
 db.run(`CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY,
-  name TEXT NOT NULL
+  name TEXT NOT NULL,
+	emoji TEXT NULL
 )`);
 
 export const userRepository = {
