@@ -1,9 +1,13 @@
-import { createRouter, createWebHistory, type NavigationGuardWithThis } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory,
+  type NavigationGuardWithThis
+} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const verifySavedName: NavigationGuardWithThis<unknown> = (to, from, next) => {
-  const savedName = localStorage.getItem('name')
-  if (savedName) {
+  const savedProfile = localStorage.getItem('profile')
+  if (savedProfile) {
     next()
   } else {
     next({ name: 'login' })

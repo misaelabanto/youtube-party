@@ -1,8 +1,18 @@
 <template>
   <div class="flex flex-col">
-    <YInput v-model="name" label="Nombre" placeholder="John Locke" />
-    <YEmojiPicker />
-    <YButton @click="" class="mt-4">Ingresar</YButton>
+    <YInput
+      :model-value="modelValue?.name"
+      @update:model-value="(name) => (profile.name = name)"
+      label="Nombre"
+      placeholder="John Locke"
+    />
+    <YEmojiPicker
+      :model-value="modelValue?.emoji"
+      @update:model-value="(emoji) => (profile.emoji = emoji)"
+    />
+    <YButton @click="$emit('save', profile)" class="mt-4">
+      {{ saveButtonName }}
+    </YButton>
   </div>
 </template>
 
@@ -10,12 +20,24 @@
 import YButton from '@/components/atoms/YButton.vue'
 import YEmojiPicker from '@/components/atoms/YEmojiPicker.vue'
 import YInput from '@/components/atoms/YInput.vue'
+import type { User } from '@/stores/profile'
+import { onMounted, ref } from 'vue'
 
-import { ref, watch } from 'vue'
+const props = defineProps<{
+  modelValue?: User
+  saveButtonName?: string
+}>()
 
-const name = ref('')
+const profile = ref<Partial<User>>({})
 
-watch(name, (newName) => {
-  console.log(newName)
+onMounted(() => {
+  profile.value = props.modelValue
+    ? props.modelValue
+    : {
+        name: 'John Locke',
+        emoji: '🔒'
+      }
 })
+
+defineEmits(['save'])
 </script>
