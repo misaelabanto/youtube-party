@@ -1,36 +1,30 @@
+import { eq } from 'drizzle-orm';
 import db from '~/config/database';
-import { AddSongBody, Song } from '~/models/song.model';
-import { $, T$ } from '~/utils/$';
-
-db.run(`CREATE TABLE IF NOT EXISTS songs (
-  id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  addedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-  upVotes INTEGER DEFAULT 0,
-  downVotes INTEGER DEFAULT 0,
-  addedBy INTEGER NOT NULL REFERENCES users(id)
-)`);
+import * as schema from '~/config/schema';
+import { AddSongBody } from '~/models/song.model';
 
 export const songRepository = {
 	getSongs: async () => {
-		return db.query<Song, []>('SELECT * FROM songs').all();
+		return db.select().from(schema.songs).all();
 	},
 
 	getSong: async (id: string) => {
-		return db
-			.prepare<Song, [string]>('SELECT * FROM songs WHERE id = ?')
-			.get(id);
+		return db.select().from(schema.songs).where(eq(schema.songs.id, id)).get();
 	},
 
 	addSong: async (addSongBody: AddSongBody) => {
 		return db
-			.prepare<Song, T$<AddSongBody>>(
-				'INSERT INTO songs (id, title, addedBy) VALUES ($id, $title, 1)'
-			)
-			.run($(addSongBody));
+			.insert(schema.songs)
+			.values({
+				id: addSongBody.id,
+				title: addSongBody.title,
+				addedBy: addSongBody.addedBy,
+				addedAt: Date.now(),
+			})
+			.returning();
 	},
 
 	deleteSong: async (id: string) => {
-		return db.prepare<Song, [string]>('DELETE FROM songs WHERE id = ?').run(id);
+		return db.delete(schema.songs).where(eq(schema.songs.id, id));
 	},
 };

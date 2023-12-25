@@ -6,6 +6,22 @@ import { usersHandler } from '~/handlers/users.handler';
 
 const app = new Elysia()
 	.get('/', () => ({ message: 'Hello Elysia' }))
+	.options('/*', ({ set }) => {
+		set.headers['X-Powered-By'] = 'Elysia';
+		set.headers['Access-Control-Allow-Origin'] = '*';
+		set.headers['Access-Control-Allow-Methods'] = '*';
+		set.headers['Access-Control-Allow-Headers'] = '*';
+		set.headers['Access-Control-Allow-Credentials'] = 'true';
+		set.headers['Expose-Headers'] = 'Content-Length';
+	})
+	.onAfterHandle(({ set }) => {
+		set.headers['X-Powered-By'] = 'Elysia';
+		set.headers['Access-Control-Allow-Origin'] = '*';
+		set.headers['Access-Control-Allow-Methods'] = '*';
+		set.headers['Access-Control-Allow-Headers'] = '*';
+		set.headers['Access-Control-Allow-Credentials'] = 'true';
+		set.headers['Expose-Headers'] = 'Content-Length';
+	})
 	.use(
 		swagger({
 			documentation: {
@@ -20,7 +36,10 @@ const app = new Elysia()
 	.use(searchHandler)
 	.use(songsHandler)
 	.use(usersHandler)
-	.onError(({ error }) => ({ message: error.message }))
+	.onError(({ error }) => {
+		console.error(error);
+		return { message: error.message };
+	})
 	.listen(3000);
 
 console.log(

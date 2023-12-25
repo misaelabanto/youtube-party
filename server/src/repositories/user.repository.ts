@@ -1,29 +1,32 @@
+import { eq } from 'drizzle-orm';
 import db from '~/config/database';
+import * as schema from '~/config/schema';
 import { CreateUserBody, User } from '~/models/user.model';
-import { $, type T$ } from '~/utils/$';
-
-db.run(`CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY,
-  name TEXT NOT NULL,
-	emoji TEXT NULL
-)`);
 
 export const userRepository = {
-	getUser: (id: number): User => {
-		const user = db
-			.query<User, [number]>('SELECT * FROM users WHERE id = ?')
-			.get(id);
-		if (!user) {
-			throw new Error('User not found');
-		}
-		return user;
+	getUser: async (id: number) => {
+		return db.get<User>(
+			db.select().from(schema.users).where(eq(schema.users.id, id))
+		);
+	},
+
+	getUsers: (): User[] => {
+		return db.select().from(schema.users).all();
 	},
 
 	createUser: (createUserBody: CreateUserBody) => {
-		return db
-			.query<User, T$<CreateUserBody>>(
-				'INSERT INTO users (name) VALUES ($name)'
-			)
-			.run($(createUserBody));
+		return db.get<User>(
+			db.insert(schema.users).values(createUserBody).returning()
+		);
+	},
+
+	updateUser: (id: number, updateUserBody: Partial<User>) => {
+		return db.get<User>(
+			db
+				.update(schema.users)
+				.set(updateUserBody)
+				.where(eq(schema.users.id, id))
+				.returning()
+		);
 	},
 };
