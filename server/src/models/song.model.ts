@@ -7,9 +7,15 @@ export const SongModel = t.Object({
 	upVotes: t.Number(),
 	downVotes: t.Number(),
 	addedBy: t.Number(),
+	thumbnail: t.String(),
 });
 
-export const AddSongBodyModel = t.Pick(SongModel, ['id', 'title', 'addedBy']);
+export const AddSongBodyModel = t.Pick(SongModel, [
+	'id',
+	'title',
+	'addedBy',
+	'thumbnail',
+]);
 
 export type Song = Static<typeof SongModel>;
 export type AddSongBody = Static<typeof AddSongBodyModel>;

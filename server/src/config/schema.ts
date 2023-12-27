@@ -10,9 +10,10 @@ export const songs = sqliteTable('songs', {
 	id: text('id').primaryKey(),
 	title: text('title').notNull(),
 	addedAt: integer('addedAt').notNull(),
-	upVotes: integer('upVotes').notNull().default(0),
-	downVotes: integer('downVotes').notNull().default(0),
+	upVotes: integer('upVotes').notNull(),
+	downVotes: integer('downVotes').notNull(),
 	addedBy: integer('addedBy')
 		.references(() => users.id)
 		.notNull(),
+	thumbnail: text('thumbnail').notNull(),
 });

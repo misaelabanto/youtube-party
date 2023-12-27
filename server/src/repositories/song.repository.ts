@@ -20,6 +20,9 @@ export const songRepository = {
 				title: addSongBody.title,
 				addedBy: addSongBody.addedBy,
 				addedAt: Date.now(),
+				downVotes: 0,
+				upVotes: 0,
+				thumbnail: addSongBody.thumbnail,
 			})
 			.returning();
 	},
