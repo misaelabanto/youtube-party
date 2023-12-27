@@ -1,0 +1,19 @@
+<template>
+  <div class="bg-gray-9 absolute top-0 left-0 h-screen w-full text-center">
+    <div class="i-mdi-check-circle text-green-500 text-[120px] mx-auto"></div>
+    <p class="text-xl">Acabo de agregar tu canción a la cola 😉</p>
+    <p>¿Qué quieres hacer ahora?</p>
+    <div class="flex flex-col gap-1 my-2">
+      <YButton class="mx-2" @click="emit('goToQueue')">Ver cola</YButton>
+      <YButton class="mx-2" @click="emit('goToSearch')">
+        Buscar otra canción
+      </YButton>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import YButton from '@/components/atoms/YButton.vue'
+
+const emit = defineEmits(['goToQueue', 'goToSearch'])
+</script>

@@ -9,6 +9,7 @@ export type Song = {
   upVotes: number
   downVotes: number
   addedBy: number
+  thumbnail: string
 }
 
 export const useSongStore = defineStore('song', () => {
@@ -18,22 +19,27 @@ export const useSongStore = defineStore('song', () => {
     addedAt: 0,
     upVotes: 0,
     downVotes: 0,
-    addedBy: 0
+    addedBy: 0,
+    thumbnail: ''
   })
-  const songs = ref<Song[]>([])
-
-  function fetchSongs() {
-    const { data } = useFetch<Song[]>(
-      `${import.meta.env.VITE_API_URL}/songs`
-    ).get()
-    if (data.value) {
-      songs.value = data.value
+  const { data, isFetching, execute } = useFetch<Song[]>(
+    `${import.meta.env.VITE_API_URL}/songs`,
+    {
+      initialData: []
     }
-  }
+  )
+    .get()
+    .json<Song[]>()
 
   function setCurrentSong(song: Song) {
     currentSong.value = song
   }
 
-  return { currentSong, fetchSongs, songs, setCurrentSong }
+  return {
+    currentSong,
+    fetchSongs: execute,
+    songs: data,
+    setCurrentSong,
+    isFetching
+  }
 })

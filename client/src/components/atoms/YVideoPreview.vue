@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col sm:flex-row bg-gray-8 p-2 dark justify-between">
+  <div class="flex flex-col sm:flex-row bg-gray-8 p-2 justify-between">
     <div class="flex flex-col sm:flex-row">
       <img
-        class="object-cover w-[120px] h-20 rounded-lg"
+        class="object-cover w-full sm:w-[120px] rounded-lg"
         :src="video.snippet.thumbnails.medium.url"
         :alt="video.snippet.title"
       />
