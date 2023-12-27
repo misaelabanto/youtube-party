@@ -11,7 +11,9 @@ export const searchHandler = new Elysia().get(
 			key: process.env.YOUTUBE_API_KEY || '',
 		}).toString();
 		const response = await fetch(url.toString());
-		const data = await response.json<youtube_v3.Schema$SearchListResponse>();
+		const data =
+			(await response.json()) as youtube_v3.Schema$SearchListResponse;
+		console.log(data);
 		return data.items;
 	},
 	{
