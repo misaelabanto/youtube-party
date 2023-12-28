@@ -20,7 +20,7 @@
 import YButton from '@/components/atoms/YButton.vue'
 import YEmojiPicker from '@/components/atoms/YEmojiPicker.vue'
 import YInput from '@/components/atoms/YInput.vue'
-import type { User } from '@/stores/profile'
+import type { User } from '@/interfaces/user'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps<{

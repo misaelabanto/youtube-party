@@ -1,16 +1,7 @@
+import type { Song } from '@/interfaces/song'
 import { useFetch } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-
-export type Song = {
-  id: string
-  title: string
-  addedAt: number
-  upVotes: number
-  downVotes: number
-  addedBy: number
-  thumbnail: string
-}
+import { computed, ref } from 'vue'
 
 export const useSongStore = defineStore('song', () => {
   const currentSong = ref<Song>({
@@ -25,11 +16,16 @@ export const useSongStore = defineStore('song', () => {
   const { data, isFetching, execute } = useFetch<Song[]>(
     `${import.meta.env.VITE_API_URL}/songs`,
     {
-      initialData: []
+      initialData: [],
+      immediate: false
     }
   )
     .get()
     .json<Song[]>()
+
+  const { post: addSong } = useFetch<Song>(
+    `${import.meta.env.VITE_API_URL}/songs`
+  ).json<Song>()
 
   function setCurrentSong(song: Song) {
     currentSong.value = song
@@ -38,7 +34,8 @@ export const useSongStore = defineStore('song', () => {
   return {
     currentSong,
     fetchSongs: execute,
-    songs: data,
+    songs: computed(() => data),
+    addSong: addSong,
     setCurrentSong,
     isFetching
   }

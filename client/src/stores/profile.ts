@@ -1,12 +1,7 @@
+import type { User } from '@/interfaces/user'
 import { useFetch } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-
-export type User = {
-  id: number
-  name: string
-  emoji: string
-}
 
 const USER_API_URL = `${import.meta.env.VITE_API_URL}/users`
 
