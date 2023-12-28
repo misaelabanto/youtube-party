@@ -10,7 +10,8 @@
 
 <script setup lang="ts">
 import EditProfile from '@/components/molecules/EditProfile.vue'
-import { useProfileStore, type User } from '@/stores/profile'
+import type { User } from '@/interfaces/user'
+import { useProfileStore } from '@/stores/profile'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
