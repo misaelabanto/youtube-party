@@ -5,29 +5,35 @@ import { AddSongBody } from '~/models/song.model';
 
 export const songRepository = {
 	getSongs: async () => {
-		return db.select().from(schema.songs).all();
+		return db.query.songs.findMany({
+			with: {
+				addedBy: true,
+			},
+		});
 	},
 
-	getSong: async (id: string) => {
-		return db.select().from(schema.songs).where(eq(schema.songs.id, id)).get();
+	getSong: async (id: number) => {
+		return db.query.songs.findFirst({
+			where: eq(schema.songs.id, id),
+			with: {
+				addedBy: true,
+			},
+		});
 	},
 
 	addSong: async (addSongBody: AddSongBody) => {
 		return db
 			.insert(schema.songs)
 			.values({
-				id: addSongBody.id,
+				videoId: addSongBody.videoId,
 				title: addSongBody.title,
 				addedBy: addSongBody.addedBy,
-				addedAt: Date.now(),
-				downVotes: 0,
-				upVotes: 0,
 				thumbnail: addSongBody.thumbnail,
 			})
 			.returning();
 	},
 
-	deleteSong: async (id: string) => {
+	deleteSong: async (id: number) => {
 		return db.delete(schema.songs).where(eq(schema.songs.id, id));
 	},
 };

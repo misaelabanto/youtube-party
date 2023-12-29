@@ -18,7 +18,7 @@ export const songsHandler = new Elysia()
 	})
 	.delete('/songs/:id', ({ params }) => songRepository.deleteSong(params.id), {
 		params: t.Object({
-			id: t.String(),
+			id: t.Number(),
 		}),
 		detail: {
 			tags: ['songs'],

@@ -1,7 +1,6 @@
-import { Database } from 'bun:sqlite';
-import { drizzle } from 'drizzle-orm/bun-sqlite';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import * as schema from '~/config/schema';
 
-const sqlite = new Database('youtubeparty.sqlite');
-
-export default drizzle(sqlite, { schema });
+const sql = postgres(process.env.DATABASE_URL!, { max: 1 });
+export default drizzle(sql, { schema });

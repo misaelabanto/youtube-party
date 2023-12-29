@@ -1,8 +1,8 @@
-import { migrate } from 'drizzle-orm/bun-sqlite/migrator';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import postgres from 'postgres';
 
-import { Database } from 'bun:sqlite';
-import { drizzle } from 'drizzle-orm/bun-sqlite';
-
-const sqlite = new Database('youtubeparty.sqlite');
-const db = drizzle(sqlite);
-await migrate(db, { migrationsFolder: './drizzle' });
+const sql = postgres(process.env.DATABASE_URL!, { max: 1 });
+const db = drizzle(sql);
+await migrate(db, { migrationsFolder: 'drizzle' });
+await sql.end();
