@@ -1,6 +1,4 @@
 import Elysia, { Static, t } from 'elysia';
-import { SongModel } from '~/models/song.model';
-import { UserModel } from '~/models/user.model';
 
 export enum VoteType {
 	UP = 'up',
@@ -10,8 +8,8 @@ export enum VoteType {
 export const VoteModel = t.Object(
 	{
 		_id: t.Any(),
-		song: t.Union([t.String(), SongModel]),
-		user: t.Union([t.String(), UserModel]),
+		song: t.Any(),
+		user: t.Any(),
 		createdAt: t.Date(),
 		voteType: t.Enum(VoteType),
 	},

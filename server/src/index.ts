@@ -47,7 +47,7 @@ const app = new Elysia()
 		set.headers['Access-Control-Allow-Credentials'] = 'true';
 		set.headers['Expose-Headers'] = 'Content-Length';
 		console.error(error);
-		return { message: error.message };
+		return error.message;
 	})
 	.listen(3000);
 

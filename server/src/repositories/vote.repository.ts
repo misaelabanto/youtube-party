@@ -3,7 +3,7 @@ import type { CreateVoteBody } from '~/models/vote.model';
 
 export const voteRepository = {
 	getVotes() {
-		return models.Vote.find().populate('user').populate('song');
+		return models.Vote.find().lean();
 	},
 	create(createVoteBody: CreateVoteBody) {
 		return models.Vote.findOneAndUpdate(
@@ -13,9 +13,7 @@ export const voteRepository = {
 			},
 			createVoteBody,
 			{ upsert: true, new: true }
-		)
-			.populate('user')
-			.populate('song');
+		).lean();
 	},
 	delete(id: string) {
 		return models.Vote.deleteOne({ _id: id });
