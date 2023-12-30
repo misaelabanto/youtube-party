@@ -77,6 +77,13 @@ export const songRepository = {
 			{
 				$unset: ['votes'],
 			},
+			{
+				$sort: {
+					upVotes: -1,
+					downVotes: 1,
+					createdAt: -1,
+				},
+			},
 		]);
 	},
 
