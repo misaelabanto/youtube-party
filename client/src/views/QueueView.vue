@@ -12,9 +12,7 @@
 <script setup lang="ts">
 import YSongItem from '@/components/atoms/YSongItem.vue'
 import { useSongStore } from '@/stores/song'
-import { onMounted } from 'vue'
 
 const { songs, fetchSongs } = useSongStore()
-
-onMounted(() => fetchSongs())
+fetchSongs()
 </script>

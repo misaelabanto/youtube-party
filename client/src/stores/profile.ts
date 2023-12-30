@@ -8,7 +8,7 @@ const USER_API_URL = `${import.meta.env.VITE_API_URL}/users`
 export const useProfileStore = defineStore('profile', () => {
   const profile = ref<User>()
   const createUser = async (body: Omit<User, 'id'>) => {
-    return useFetch<User>(USER_API_URL).post(body)
+    return useFetch<User>(USER_API_URL).post(body).json()
   }
   const saveProfile = (user: User) => {
     profile.value = user

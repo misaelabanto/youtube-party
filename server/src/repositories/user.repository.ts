@@ -1,28 +1,22 @@
-import { eq } from 'drizzle-orm';
-import db from '~/config/database';
-import * as schema from '~/config/schema';
+import { models } from '~/config/schema';
 import { CreateUserBody, User } from '~/models/user.model';
 
 export const userRepository = {
-	getUser: async (id: number) => {
-		return db.query.users.findFirst({
-			where: eq(schema.users.id, id),
-		});
+	getUser: async (id: string) => {
+		return models.User.findById(id);
 	},
 
-	getUsers: () => {
-		return db.query.users.findMany();
+	getUsers: async () => {
+		const users = await models.User.find().lean();
+		console.log(users);
+		return users;
 	},
 
 	createUser: (createUserBody: CreateUserBody) => {
-		return db.insert(schema.users).values(createUserBody).returning();
+		return models.User.create(createUserBody);
 	},
 
-	updateUser: (id: number, updateUserBody: Partial<User>) => {
-		return db
-			.update(schema.users)
-			.set(updateUserBody)
-			.where(eq(schema.users.id, id))
-			.returning();
+	updateUser: (id: string, updateUserBody: Partial<User>) => {
+		return models.User.updateOne({ _id: id }, updateUserBody);
 	},
 };

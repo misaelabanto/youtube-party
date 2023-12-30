@@ -3,6 +3,8 @@ import { Elysia } from 'elysia';
 import { searchHandler } from '~/handlers/search.handler';
 import { songsHandler } from '~/handlers/songs.handler';
 import { usersHandler } from '~/handlers/users.handler';
+import { votesHandler } from '~/handlers/votes.handler';
+await import('~/config/database');
 
 const app = new Elysia()
 	.get('/', () => ({ message: 'Hello Elysia' }))
@@ -36,6 +38,7 @@ const app = new Elysia()
 	.use(searchHandler)
 	.use(songsHandler)
 	.use(usersHandler)
+	.use(votesHandler)
 	.onError(({ error }) => {
 		console.error(error);
 		return { message: error.message };

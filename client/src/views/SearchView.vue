@@ -35,7 +35,7 @@ const videos = ref<Video[]>([])
 const url = computed(() => {
   return `${import.meta.env.VITE_API_URL}/search?q=${songSearchText.value}`
 })
-const viewConfirmation = ref(true)
+const viewConfirmation = ref(false)
 
 const { data, execute, isFetching } = useFetch<Video[]>(url, {
   immediate: false,

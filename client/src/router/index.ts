@@ -1,9 +1,9 @@
+import AppLayout from '@/layouts/AppLayout.vue'
 import {
   createRouter,
   createWebHistory,
   type NavigationGuardWithThis
 } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const verifySavedName: NavigationGuardWithThis<unknown> = (to, from, next) => {
   const savedProfile = localStorage.getItem('profile')
@@ -19,34 +19,35 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
-      beforeEnter: [verifySavedName]
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
-    },
-    {
-      path: '/player',
-      name: 'player',
-      component: () => import('../views/PlayerView.vue')
+      component: AppLayout,
+      beforeEnter: [verifySavedName],
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('../views/ProfileView.vue')
+        },
+        {
+          path: 'player',
+          name: 'player',
+          component: () => import('../views/PlayerView.vue')
+        },
+        {
+          path: '',
+          name: '',
+          component: () => import('../views/SearchView.vue')
+        },
+        {
+          path: 'queue',
+          name: 'queue',
+          component: () => import('../views/QueueView.vue')
+        }
+      ]
     },
     {
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
-    },
-    {
-      path: '/search',
-      name: 'search',
-      component: () => import('../views/SearchView.vue')
-    },
-    {
-      path: '/queue',
-      name: 'queue',
-      component: () => import('../views/QueueView.vue')
     }
   ]
 })

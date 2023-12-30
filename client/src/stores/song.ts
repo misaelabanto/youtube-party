@@ -7,24 +7,23 @@ export const useSongStore = defineStore('song', () => {
   const currentSong = ref<Song>({
     id: '',
     title: '',
-    addedAt: 0,
-    upVotes: 0,
-    downVotes: 0,
+    createdAt: 0,
     addedBy: 0,
     thumbnail: ''
   })
-  const { data, isFetching, execute } = useFetch<Song[]>(
-    `${import.meta.env.VITE_API_URL}/songs`,
-    {
-      initialData: [],
-      immediate: false
-    }
-  )
-    .get()
-    .json<Song[]>()
+  const {
+    data,
+    isFetching,
+    get: fetchSongs
+  } = useFetch<Song[]>(`${import.meta.env.VITE_API_URL}/songs`, {
+    initialData: []
+  }).json<Song[]>()
 
   const { post: addSong } = useFetch<Song>(
-    `${import.meta.env.VITE_API_URL}/songs`
+    `${import.meta.env.VITE_API_URL}/songs`,
+    {
+      immediate: false
+    }
   ).json<Song>()
 
   function setCurrentSong(song: Song) {
@@ -33,9 +32,9 @@ export const useSongStore = defineStore('song', () => {
 
   return {
     currentSong,
-    fetchSongs: execute,
+    fetchSongs,
     songs: computed(() => data),
-    addSong: addSong,
+    addSong,
     setCurrentSong,
     isFetching
   }

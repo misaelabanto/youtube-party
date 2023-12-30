@@ -1,9 +1,7 @@
 export type Song = {
   id: string
   title: string
-  addedAt: number
-  upVotes: number
-  downVotes: number
+  createdAt: number
   addedBy: number
   thumbnail: string
 }

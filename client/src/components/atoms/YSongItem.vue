@@ -9,9 +9,9 @@
       <div class="ml-3 mt-3">
         <p class="text-xl font-medium" v-html="song.title"></p>
         <div class="flex text-sm text-gray-500">
-          <time :datetime="new Date(song.addedAt).toISOString()">
+          <time :datetime="new Date(song.createdAt).toISOString()">
             {{
-              new Date(song.addedAt).toLocaleTimeString('en-US', {
+              new Date(song.createdAt).toLocaleTimeString('en-US', {
                 timeStyle: 'medium'
               })
             }}

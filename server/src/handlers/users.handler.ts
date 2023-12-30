@@ -4,12 +4,19 @@ import { userRepository } from '~/repositories/user.repository';
 
 export const usersHandler = new Elysia()
 	.use(userModel)
-	.get('/users', () => userRepository.getUsers(), {
-		response: 'users',
-		detail: {
-			tags: ['users'],
+	.get(
+		'/users',
+		async () => {
+			const users = await userRepository.getUsers();
+			return users;
 		},
-	})
+		{
+			response: 'users',
+			detail: {
+				tags: ['users'],
+			},
+		}
+	)
 	.get(
 		'/users/:id',
 		async ({ params }) => {
@@ -23,7 +30,7 @@ export const usersHandler = new Elysia()
 		{
 			response: 'user',
 			params: t.Object({
-				id: t.Numeric(),
+				id: t.String(),
 			}),
 			detail: {
 				tags: ['users'],
@@ -42,7 +49,7 @@ export const usersHandler = new Elysia()
 		{
 			body: 'user.update',
 			params: t.Object({
-				id: t.Numeric(),
+				id: t.String(),
 			}),
 			detail: {
 				tags: ['users'],

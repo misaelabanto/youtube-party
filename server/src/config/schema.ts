@@ -1,62 +1,78 @@
-import { relations } from 'drizzle-orm';
-import {
-	integer,
-	pgEnum,
-	pgTable,
-	serial,
-	text,
-	timestamp,
-} from 'drizzle-orm/pg-core';
+import * as mongoose from 'mongoose';
+import type { Song } from '~/models/song.model';
+import type { User } from '~/models/user.model';
+import { Vote } from '~/models/vote.model';
 
-export const users = pgTable('users', {
-	id: serial('id').primaryKey(),
-	name: text('name').notNull(),
-	emoji: text('emoji').notNull(),
+const songSchema = new mongoose.Schema<Song>(
+	{
+		videoId: String,
+		title: String,
+		createdAt: {
+			type: Date,
+			default: Date.now,
+		},
+		addedBy: {
+			type: String,
+			ref: 'User',
+		},
+		thumbnail: String,
+	},
+	{
+		toJSON: {
+			virtuals: true,
+		},
+	}
+);
+
+songSchema.virtual('upVotes', {
+	ref: 'Vote',
+	count: true,
+	localField: '_id',
+	foreignField: 'song',
 });
 
-export const songs = pgTable('songs', {
-	id: serial('id').primaryKey(),
-	videoId: text('videoId').notNull(),
-	title: text('title').notNull(),
-	createdAt: timestamp('createdAt').notNull().defaultNow(),
-	addedBy: integer('addedBy')
-		.references(() => users.id)
-		.notNull(),
-	thumbnail: text('thumbnail').notNull(),
-});
+const SongModel = mongoose.model('Song', songSchema);
 
-export const voteEnum = pgEnum('voteType', ['up', 'down']);
+const userSchema = new mongoose.Schema<User>(
+	{
+		name: String,
+		emoji: String,
+	},
+	{
+		versionKey: false,
+	}
+);
 
-export const votes = pgTable('votes', {
-	id: serial('id').primaryKey(),
-	songId: integer('songId')
-		.references(() => songs.id)
-		.notNull(),
-	userId: integer('userId')
-		.references(() => users.id)
-		.notNull(),
-	voteType: voteEnum('voteType').notNull(),
-});
+const UserModel = mongoose.model('User', userSchema);
 
-export const userRelations = relations(users, ({ many }) => ({
-	posts: many(songs),
-}));
+const voteSchema = new mongoose.Schema<Vote>(
+	{
+		song: {
+			type: String,
+			ref: 'Song',
+		},
+		user: {
+			type: String,
+			ref: 'User',
+		},
+		createdAt: {
+			type: Date,
+			default: Date.now,
+		},
+		voteType: {
+			type: String,
+			enum: ['up', 'down'],
+		},
+	},
+	{
+		versionKey: false,
+	}
+);
 
-export const songsRelations = relations(songs, ({ one, many }) => ({
-	addedBy: one(users, {
-		fields: [songs.addedBy],
-		references: [users.id],
-	}),
-	votes: many(votes),
-}));
+const VoteModel = mongoose.model('Vote', voteSchema);
 
-export const votesRelations = relations(votes, ({ one }) => ({
-	song: one(songs, {
-		fields: [votes.songId],
-		references: [songs.id],
-	}),
-	user: one(users, {
-		fields: [votes.userId],
-		references: [users.id],
-	}),
-}));
+export const models = {
+	Song: SongModel,
+	User: UserModel,
+	Vote: VoteModel,
+};
