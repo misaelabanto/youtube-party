@@ -2,7 +2,7 @@
   <div class="flex flex-col sm:flex-row bg-gray-8 p-2 justify-between">
     <div class="flex flex-col sm:flex-row">
       <img
-        class="object-cover w-full w-[40px] rounded-lg"
+        class="object-cover w-[200px] rounded-lg"
         :src="song.thumbnail"
         :alt="song.title"
       />
@@ -23,6 +23,7 @@
     </div>
     <div class="flex justify-end">
       <button
+        @click="$emit('vote', 'up')"
         :class="[
           song.userUpVoted ? 'text-green-500' : 'text-green-200',
           'hover:text-green-500'
@@ -32,6 +33,7 @@
         <div class="i-mdi:arrow-up-thick text-5xl"></div>
       </button>
       <button
+        @click="$emit('vote', 'down')"
         :class="[
           song.userDownVoted ? 'text-red-500' : 'text-red-200',
           'hover:text-red-500'
@@ -50,5 +52,9 @@ import type { User } from '@/interfaces/user'
 
 defineProps<{
   song: Song
+}>()
+
+defineEmits<{
+  (e: 'vote', vote: 'up' | 'down'): void
 }>()
 </script>

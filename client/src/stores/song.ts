@@ -5,16 +5,14 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 const { profile } = useProfileStore()
+const SONGS_URL = `${import.meta.env.VITE_API_URL}/songs`
 
 export const useSongStore = defineStore('song', () => {
   const currentSong = ref<Song>()
   const fetchSongs = () =>
-    useFetch<Song[]>(
-      `${import.meta.env.VITE_API_URL}/songs?userId=${profile?._id}`,
-      {
-        initialData: []
-      }
-    ).json<Song[]>()
+    useFetch<Song[]>(`${SONGS_URL}?userId=${profile?._id}`, {
+      initialData: []
+    }).json<Song[]>()
 
   const addSong = (song: Pick<Song, 'addedBy' | 'title' | 'thumbnail'>) =>
     useFetch<Song>(`${import.meta.env.VITE_API_URL}/songs`)
