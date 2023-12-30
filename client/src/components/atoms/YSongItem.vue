@@ -9,6 +9,8 @@
       <div class="ml-3 mt-3">
         <p class="text-xl font-medium" v-html="song.title"></p>
         <div class="flex text-sm text-gray-500">
+          <span>{{ (song.addedBy as User).name }}</span>
+          <span class="mx-1">•</span>
           <time :datetime="new Date(song.createdAt).toISOString()">
             {{
               new Date(song.createdAt).toLocaleTimeString('en-US', {
@@ -22,20 +24,20 @@
     <div class="flex justify-end">
       <button
         :class="[
-          upVoted ? 'text-green-500' : 'text-green-200',
+          song.userUpVoted ? 'text-green-500' : 'text-green-200',
           'hover:text-green-500'
         ]"
       >
-        <span class="">4</span>
+        <span class="">{{ song.upVotes }}</span>
         <div class="i-mdi:arrow-up-thick text-5xl"></div>
       </button>
       <button
         :class="[
-          downVoted ? 'text-red-500' : 'text-red-200',
+          song.userDownVoted ? 'text-red-500' : 'text-red-200',
           'hover:text-red-500'
         ]"
       >
-        <span class="">8</span>
+        <span class="">{{ song.downVotes }}</span>
         <div class="i-mdi:arrow-down-thick text-5xl"></div>
       </button>
     </div>
@@ -44,10 +46,9 @@
 
 <script setup lang="ts">
 import type { Song } from '@/interfaces/song'
+import type { User } from '@/interfaces/user'
 
 defineProps<{
   song: Song
-  upVoted: boolean
-  downVoted: boolean
 }>()
 </script>

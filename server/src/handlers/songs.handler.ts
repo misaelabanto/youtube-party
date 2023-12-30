@@ -4,8 +4,11 @@ import { songRepository } from '~/repositories/song.repository';
 
 export const songsHandler = new Elysia()
 	.use(songModel)
-	.get('/songs', () => songRepository.getSongs(), {
+	.get('/songs', ({ query }) => songRepository.getSongs(query.userId), {
 		response: 'songs',
+		query: t.Object({
+			userId: t.String(),
+		}),
 		detail: {
 			tags: ['songs'],
 		},

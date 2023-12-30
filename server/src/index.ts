@@ -39,7 +39,13 @@ const app = new Elysia()
 	.use(songsHandler)
 	.use(usersHandler)
 	.use(votesHandler)
-	.onError(({ error }) => {
+	.onError(({ error, set }) => {
+		set.headers['X-Powered-By'] = 'Elysia';
+		set.headers['Access-Control-Allow-Origin'] = '*';
+		set.headers['Access-Control-Allow-Methods'] = '*';
+		set.headers['Access-Control-Allow-Headers'] = '*';
+		set.headers['Access-Control-Allow-Credentials'] = 'true';
+		set.headers['Expose-Headers'] = 'Content-Length';
 		console.error(error);
 		return { message: error.message };
 	})

@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-medium" @click="() => fetchSongs()">
       Cola de canciones
     </h1>
-    <div v-for="song in songs" :key="song.id">
+    <div v-for="song in songs" :key="song._id">
       <YSongItem :down-voted="false" :up-voted="true" :song="song" />
     </div>
   </div>
@@ -13,6 +13,6 @@
 import YSongItem from '@/components/atoms/YSongItem.vue'
 import { useSongStore } from '@/stores/song'
 
-const { songs, fetchSongs } = useSongStore()
-fetchSongs()
+const { fetchSongs } = useSongStore()
+const { data: songs } = fetchSongs()
 </script>

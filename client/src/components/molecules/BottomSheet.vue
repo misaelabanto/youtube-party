@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-x-0 bottom-0 bg-gray-800 shadow-md">
+  <div class="fixed inset-x-0 bottom-0 bg-gray-800 shadow shadow-xl">
     <div class="flex justify-between max-w-md mx-auto py-4 px-8">
       <YBottonSheetButton
         @click="setTabActive('queue')"
@@ -40,4 +40,3 @@ import YBottonSheetButton from '@/components/atoms/YBottonSheetButton.vue'
 import { useAppStore } from '@/stores/app'
 const { tabActive, setTabActive } = useAppStore()
 </script>
-@/stores/app

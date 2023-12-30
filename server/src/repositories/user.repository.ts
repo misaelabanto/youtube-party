@@ -8,7 +8,6 @@ export const userRepository = {
 
 	getUsers: async () => {
 		const users = await models.User.find().lean();
-		console.log(users);
 		return users;
 	},
 

@@ -6,7 +6,7 @@ export const SongModel = t.Object(
 		_id: t.Any(),
 		videoId: t.String(),
 		title: t.String(),
-		createdAt: t.Date(),
+		createdAt: t.Union([t.String({ format: 'date-time' }), t.Date()]),
 		addedBy: t.Union([t.String(), UserModel]),
 		thumbnail: t.String(),
 	},
@@ -28,5 +28,13 @@ export type AddSongBody = Static<typeof AddSongBodyModel>;
 export const songModel = new Elysia().model({
 	song: SongModel,
 	'song.add': AddSongBodyModel,
-	songs: t.Array(SongModel),
+	songs: t.Array(
+		t.Object({
+			...SongModel.properties,
+			upVotes: t.Number(),
+			downVotes: t.Number(),
+			userUpVoted: t.Boolean(),
+			userDownVoted: t.Boolean(),
+		})
+	),
 });

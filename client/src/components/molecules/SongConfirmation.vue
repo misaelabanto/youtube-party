@@ -1,13 +1,17 @@
 <template>
-  <div class="bg-gray-9 absolute top-0 left-0 h-screen w-full text-center">
-    <div class="i-mdi-check-circle text-green-500 text-[120px] mx-auto"></div>
-    <p class="text-xl">Acabo de agregar tu canción a la cola 😉</p>
-    <p>¿Qué quieres hacer ahora?</p>
-    <div class="flex flex-col gap-1 my-2">
-      <YButton class="mx-2" @click="emit('goToQueue')">Ver cola</YButton>
-      <YButton class="mx-2" @click="emit('goToSearch')">
-        Buscar otra canción
-      </YButton>
+  <div
+    class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center mx-4"
+  >
+    <div class="bg-gray-8 p-6 rounded-lg shadow-xl">
+      <div class="i-mdi-check-circle text-green-500 text-[120px] mx-auto"></div>
+      <p class="text-xl">Acabo de agregar tu canción a la cola 😉</p>
+      <p>¿Qué quieres hacer ahora?</p>
+      <div class="flex flex-col gap-1 my-2">
+        <YButton class="mx-2" @click="emit('goToQueue')">Ver cola</YButton>
+        <YButton class="mx-2" @click="emit('goToSearch')">
+          Buscar otra canción
+        </YButton>
+      </div>
     </div>
   </div>
 </template>

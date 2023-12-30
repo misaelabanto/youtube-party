@@ -7,13 +7,19 @@ export enum VoteType {
 	DOWN = 'down',
 }
 
-export const VoteModel = t.Object({
-	_id: t.Any(),
-	song: t.Union([t.String(), SongModel]),
-	user: t.Union([t.String(), UserModel]),
-	createdAt: t.Date(),
-	voteType: t.Enum(VoteType),
-});
+export const VoteModel = t.Object(
+	{
+		_id: t.Any(),
+		song: t.Union([t.String(), SongModel]),
+		user: t.Union([t.String(), UserModel]),
+		createdAt: t.Date(),
+		voteType: t.Enum(VoteType),
+	},
+	{
+		$id: 'Vote',
+	}
+);
+
 export const CreateVoteBodyModel = t.Pick(VoteModel, [
 	'user',
 	'song',

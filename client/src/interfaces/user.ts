@@ -1,5 +1,5 @@
 export type User = {
-  id: number
+  _id: string
   name: string
   emoji: string
 }

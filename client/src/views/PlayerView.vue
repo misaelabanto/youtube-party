@@ -24,7 +24,7 @@ const { currentSong, songs, setCurrentSong, fetchSongs } = useSongStore()
 const playing = ref(true)
 
 const nextVideo = () => {
-  const index = songs.findIndex((song) => song.id === currentSong?.id)
+  const index = songs.findIndex((song) => song.id === currentSong?._id)
   if (index === songs.length - 1) {
     return
   }
@@ -33,7 +33,7 @@ const nextVideo = () => {
 fetchSongs()
 
 const previousVideo = () => {
-  const index = songs.findIndex((song) => song.id === currentSong?.id)
+  const index = songs.findIndex((song) => song.id === currentSong?._id)
   if (index === 0) {
     return
   }

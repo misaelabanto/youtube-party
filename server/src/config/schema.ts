@@ -12,7 +12,7 @@ const songSchema = new mongoose.Schema<Song>(
 			default: Date.now,
 		},
 		addedBy: {
-			type: String,
+			type: mongoose.SchemaTypes.ObjectId,
 			ref: 'User',
 		},
 		thumbnail: String,
@@ -29,6 +29,19 @@ songSchema.virtual('upVotes', {
 	count: true,
 	localField: '_id',
 	foreignField: 'song',
+	match: {
+		voteType: 'up',
+	},
+});
+
+songSchema.virtual('downVotes', {
+	ref: 'Vote',
+	count: true,
+	localField: '_id',
+	foreignField: 'song',
+	match: {
+		voteType: 'down',
+	},
 });
 
 const SongModel = mongoose.model('Song', songSchema);
@@ -48,11 +61,11 @@ const UserModel = mongoose.model('User', userSchema);
 const voteSchema = new mongoose.Schema<Vote>(
 	{
 		song: {
-			type: String,
+			type: mongoose.SchemaTypes.ObjectId,
 			ref: 'Song',
 		},
 		user: {
-			type: String,
+			type: mongoose.SchemaTypes.ObjectId,
 			ref: 'User',
 		},
 		createdAt: {

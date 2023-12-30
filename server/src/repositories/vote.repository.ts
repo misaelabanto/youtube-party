@@ -13,9 +13,10 @@ export const voteRepository = {
 			},
 			createVoteBody,
 			{ upsert: true, new: true }
-		);
+		)
+			.populate('user')
+			.populate('song');
 	},
-
 	delete(id: string) {
 		return models.Vote.deleteOne({ _id: id });
 	},

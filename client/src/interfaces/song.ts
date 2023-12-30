@@ -1,12 +1,19 @@
+import type { User } from '@/interfaces/user'
+
 export type Song = {
-  id: string
+  _id: string
+  videoId: string
   title: string
   createdAt: number
-  addedBy: number
+  addedBy: string | User
   thumbnail: string
+  upVotes: number
+  downVotes: number
+  userUpVoted: boolean
+  userDownVoted: boolean
 }
 
 export type CreateSongPayload = Pick<
   Song,
-  'id' | 'title' | 'thumbnail' | 'addedBy'
+  '_id' | 'title' | 'thumbnail' | 'addedBy'
 >

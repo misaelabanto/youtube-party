@@ -16,16 +16,33 @@
       </div>
     </div>
     <div>
-      <YButton class="w-40">Agregar</YButton>
+      <YButton
+        :loading="loading"
+        class="w-40"
+        @click="
+          $emit('add', {
+            videoId: video.id.videoId!,
+            title: video.snippet.title,
+            thumbnail: video.snippet.thumbnails.medium.url
+          })
+        "
+        >Agregar</YButton
+      >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import YButton from '@/components/atoms/YButton.vue'
+import type { Song } from '@/interfaces/song'
 import type { Video } from '@/interfaces/video'
 
 defineProps<{
   video: Video
+  loading: boolean
+}>()
+
+defineEmits<{
+  (e: 'add', song: Pick<Song, 'title' | 'thumbnail' | 'videoId'>): void
 }>()
 </script>
