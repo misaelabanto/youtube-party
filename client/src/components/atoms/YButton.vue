@@ -1,6 +1,7 @@
 <template>
   <button
     @click="$emit('click')"
+    :disabled="loading"
     class="h-16 bg-purple-500 text-lg font-bold text-white hover:bg-purple-600 focus:ring-blue-200 rounded-lg"
   >
     <template v-if="loading">
