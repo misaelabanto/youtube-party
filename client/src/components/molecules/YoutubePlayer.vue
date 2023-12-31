@@ -36,7 +36,8 @@ const { onReady, onStateChange, instance } = usePlayer(props.videoId, youtube, {
   cookie: false,
   playerVars: {
     mute: 0,
-    controls: 0
+    controls: 0,
+    origin: 'https://www.youtube-nocookie.com'
   },
   height: '100%',
   width: '100%'
