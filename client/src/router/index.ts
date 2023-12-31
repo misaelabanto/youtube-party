@@ -8,6 +8,9 @@ import {
 const verifySavedName: NavigationGuardWithThis<unknown> = (to, from, next) => {
   const savedProfile = localStorage.getItem('profile')
   if (savedProfile) {
+    if (to.name === 'login') {
+      return next({ name: 'search' })
+    }
     next()
   } else {
     next({ name: 'login' })
@@ -34,7 +37,7 @@ const router = createRouter({
         },
         {
           path: '',
-          name: '',
+          name: 'search',
           component: () => import('../views/SearchView.vue')
         },
         {
@@ -47,7 +50,8 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/LoginView.vue'),
+      beforeEnter: [verifySavedName]
     }
   ]
 })
