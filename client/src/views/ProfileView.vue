@@ -3,6 +3,7 @@
     :model-value="profile"
     save-button-name="Guardar"
     @save="updateUser"
+    :loading="loading"
   />
 </template>
 
@@ -11,11 +12,15 @@ import EditProfile from '@/components/molecules/EditProfile.vue'
 import type { User } from '@/interfaces/user'
 import { useProfileStore } from '@/stores/profile'
 import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
 const profileStore = useProfileStore()
 const { profile } = storeToRefs(profileStore)
+const loading = ref<boolean>(false)
 
-const updateUser = (user: Omit<User, '_id'>) => {
-  profileStore.updateUser(profile.value._id, user)
+const updateUser = async (user: Omit<User, '_id'>) => {
+  loading.value = true
+  await profileStore.updateUser(profile.value._id, user)
+  loading.value = false
 }
 </script>
