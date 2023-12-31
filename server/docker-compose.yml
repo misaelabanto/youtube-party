@@ -2,6 +2,9 @@
 version: '3.3'
 services:
   party-backend:
+    image: 'docker.io/misaelabanto/party-backend:latest'
+    platform: linux/amd64
+    container_name: party-backend
     build: .
     ports:
       - '3018:3000'
