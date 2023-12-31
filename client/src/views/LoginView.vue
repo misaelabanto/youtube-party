@@ -19,7 +19,10 @@ const router = useRouter()
 const { profile, createUser, saveProfile } = useProfileStore()
 
 const saveUser = async (user: Omit<User, 'id'>) => {
-  const { data } = await createUser(user)
+  const { data } = await createUser({
+    emoji: user.emoji,
+    name: user.name
+  })
   if (data.value) {
     saveProfile(data.value)
   }
