@@ -9,7 +9,9 @@
       <div class="ml-3 mt-3">
         <p class="text-xl font-medium" v-html="song.title"></p>
         <div class="flex text-sm text-gray-500">
-          <span>{{ (song.addedBy as User).name }}</span>
+          <span :class="playingClass">{{ SONG_STATES[song.status] }}</span>
+          <span class="mx-1">•</span>
+          <span>{{ authorLabel }}</span>
           <span class="mx-1">•</span>
           <time :datetime="new Date(song.createdAt).toISOString()">
             {{
@@ -49,10 +51,24 @@
 <script setup lang="ts">
 import type { Song } from '@/interfaces/song'
 import type { User } from '@/interfaces/user'
+import { computed } from 'vue'
 
-defineProps<{
+const SONG_STATES: Record<'pending' | 'playing' | 'played', string> = {
+  pending: 'En cola',
+  playing: 'Sonando ahora',
+  played: 'Yala'
+}
+
+const props = defineProps<{
   song: Song
 }>()
+
+const playingClass = props.song.status === 'playing' ? 'text-green-500' : ''
+
+const authorLabel = computed(() => {
+  const user = props.song.addedBy as User
+  return `${user.name} ${user.emoji}`
+})
 
 defineEmits<{
   (e: 'vote', vote: 'up' | 'down'): void
