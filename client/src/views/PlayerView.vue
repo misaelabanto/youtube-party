@@ -1,10 +1,15 @@
 <template>
   <div>
     <YoutubePlayer
+      v-if="songStore.currentSong"
+      :key="songStore.currentSong.videoId"
       :playing="playing"
       @end="nextVideo"
-      :videoId="currentSong.id"
+      :videoId="songStore.currentSong.videoId"
     />
+    <div v-else>
+      <p>Aún no hay canciones</p>
+    </div>
     <PlayerActions
       @pause="playing = false"
       @play="playing = true"
@@ -18,25 +23,36 @@
 import PlayerActions from '@/components/molecules/PlayerActions.vue'
 import YoutubePlayer from '@/components/molecules/YoutubePlayer.vue'
 import { useSongStore } from '@/stores/song'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const { currentSong, songs, setCurrentSong, fetchSongs } = useSongStore()
+const songStore = useSongStore()
 const playing = ref(true)
+const { data: songs, onFetchResponse } = songStore.fetchSongs()
+const index = ref<number>(0)
 
 const nextVideo = () => {
-  const index = songs.findIndex((song) => song.id === currentSong?._id)
-  if (index === songs.length - 1) {
-    return
+  songStore.updateSongStatus(songStore.currentSong?._id!, 'played')
+  index.value++
+  if (songs.value?.[index.value]) {
+    songStore.setCurrentSong(songs.value?.[index.value])
   }
-  setCurrentSong(songs[index + 1])
+  songStore.updateSongStatus(songStore.currentSong?._id!, 'playing')
 }
-fetchSongs()
 
 const previousVideo = () => {
-  const index = songs.findIndex((song) => song.id === currentSong?._id)
-  if (index === 0) {
-    return
+  songStore.updateSongStatus(songStore.currentSong?._id!, 'played')
+  console.log(index.value)
+  index.value--
+  if (songs.value?.[index.value]) {
+    songStore.setCurrentSong(songs.value?.[index.value])
   }
-  setCurrentSong(songs[index - 1])
+  songStore.updateSongStatus(songStore.currentSong?._id!, 'playing')
 }
+
+onMounted(() => {
+  onFetchResponse(() => {
+    songStore.setCurrentSong(songs.value![0])
+    songStore.updateSongStatus(songStore.currentSong?._id!, 'playing')
+  })
+})
 </script>
