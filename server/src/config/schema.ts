@@ -3,7 +3,7 @@ import type { Song } from '~/models/song.model';
 import type { User } from '~/models/user.model';
 import { Vote } from '~/models/vote.model';
 
-const songSchema = new mongoose.Schema<Song>(
+const songSchema = new mongoose.Schema(
 	{
 		videoId: String,
 		title: String,
@@ -16,6 +16,11 @@ const songSchema = new mongoose.Schema<Song>(
 			ref: 'User',
 		},
 		thumbnail: String,
+		status: {
+			type: String,
+			enum: ['pending', 'playing', 'played'],
+			default: 'pending',
+		},
 	},
 	{
 		toJSON: {
@@ -44,9 +49,9 @@ songSchema.virtual('downVotes', {
 	},
 });
 
-const SongModel = mongoose.model('Song', songSchema);
+const SongModel = mongoose.model<Song>('Song', songSchema);
 
-const userSchema = new mongoose.Schema<User>(
+const userSchema = new mongoose.Schema(
 	{
 		name: String,
 		emoji: String,
@@ -56,9 +61,9 @@ const userSchema = new mongoose.Schema<User>(
 	}
 );
 
-const UserModel = mongoose.model('User', userSchema);
+const UserModel = mongoose.model<User>('User', userSchema);
 
-const voteSchema = new mongoose.Schema<Vote>(
+const voteSchema = new mongoose.Schema(
 	{
 		song: {
 			type: mongoose.SchemaTypes.ObjectId,
@@ -82,7 +87,7 @@ const voteSchema = new mongoose.Schema<Vote>(
 	}
 );
 
-const VoteModel = mongoose.model('Vote', voteSchema);
+const VoteModel = mongoose.model<Vote>('Vote', voteSchema);
 
 export const models = {
 	Song: SongModel,
