@@ -7,6 +7,7 @@ export type Song = {
   createdAt: number
   addedBy: string | User
   thumbnail: string
+  status: 'playing' | 'played' | 'pending'
   upVotes: number
   downVotes: number
   userUpVoted: boolean
