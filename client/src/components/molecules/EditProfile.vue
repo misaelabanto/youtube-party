@@ -1,16 +1,15 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col" v-if="profile">
     <YInput
-      :model-value="modelValue?.name"
-      @update:model-value="(name) => (profile.name = name)"
+      v-model="profile.name"
       label="Nombre"
-      placeholder="John Locke"
+      placeholder="¿Cómo te llamas?"
     />
-    <YEmojiPicker
-      :model-value="modelValue?.emoji"
-      @update:model-value="(emoji) => (profile.emoji = emoji)"
-    />
-    <YButton @click="$emit('save', profile)" class="mt-4">
+    <YEmojiPicker v-model="profile.emoji" />
+    <YButton
+      @click="$emit('save', { name: profile.name, emoji: profile.emoji })"
+      class="mt-4"
+    >
       {{ saveButtonName }}
     </YButton>
   </div>
@@ -21,22 +20,25 @@ import YButton from '@/components/atoms/YButton.vue'
 import YEmojiPicker from '@/components/atoms/YEmojiPicker.vue'
 import YInput from '@/components/atoms/YInput.vue'
 import type { User } from '@/interfaces/user'
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 
 const props = defineProps<{
   modelValue?: User
   saveButtonName?: string
 }>()
 
-const profile = ref<Partial<User>>({})
+const profile = reactive<Partial<User>>({})
 
 onMounted(() => {
-  profile.value = props.modelValue
-    ? props.modelValue
-    : {
-        name: 'John Locke',
-        emoji: '🔒'
-      }
+  Object.assign(
+    profile,
+    props.modelValue?.name
+      ? props.modelValue
+      : {
+          name: 'John Locke',
+          emoji: '🔒'
+        }
+  )
 })
 
 defineEmits(['save'])
