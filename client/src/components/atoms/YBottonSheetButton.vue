@@ -2,8 +2,16 @@
   <RouterLink
     @click="$emit('click')"
     :to="to"
-    class="flex flex-col items-center rounded-full h16 w-16 pt-2"
-    :class="activeClasses"
+    :class="{
+      flex: true,
+      'flex-col': true,
+      'items-center': true,
+      'rounded-full': true,
+      h16: true,
+      'w-16': true,
+      'pt-2': true,
+      ...activeClasses
+    }"
   >
     <div class="text-3xl h-8 w-12 flex justify-center">
       <slot name="icon" />
