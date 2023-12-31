@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import YBottonSheetButton from '@/components/atoms/YBottonSheetButton.vue'
+import YBottonSheetButton from '@/components/atoms/YBottomSheetButton.vue'
 
 defineProps<{
   active: string
