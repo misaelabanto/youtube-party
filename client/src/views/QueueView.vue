@@ -31,18 +31,34 @@ const { show } = useAlertStore()
 const { data: songs, execute } = fetchSongs()
 const { createVote } = useVoteStore()
 const { profile } = useProfileStore()
-const { ws } = useWebSocket(
-  `${import.meta.env.VITE_API_URL.replace('http', 'ws')}/ws`,
-  {
-    autoReconnect: true,
-    heartbeat: true
-  }
-)
-
-ws.value?.addEventListener('message', (event) => {
-  if (event.data === 'vote') {
-    execute()
-    show('info', 'Alguien votó por una canción')
+useWebSocket(`${import.meta.env.VITE_API_URL.replace('http', 'ws')}/ws`, {
+  autoReconnect: true,
+  heartbeat: true,
+  onMessage: (_ws, event) => {
+    if (event.data === 'vote') {
+      execute()
+      show('info', 'Alguien votó por una canción 👍/👎')
+    }
+    if (event.data === 'song') {
+      execute()
+      show('success', 'Alguien agregó una canción ✅')
+    }
+    if (event.data === 'previous') {
+      execute()
+      show('info', 'Pasó a la canción anterior ⏪️')
+    }
+    if (event.data === 'next') {
+      execute()
+      show('info', 'Pasó a la siguiente canción ⏩️')
+    }
+    if (event.data === 'play') {
+      execute()
+      show('success', 'Reproduciendo la canción 🎵')
+    }
+    if (event.data === 'pause') {
+      execute()
+      show('error', 'Se pausó la canción ⏸️')
+    }
   }
 })
 
