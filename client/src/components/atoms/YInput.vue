@@ -6,7 +6,7 @@
       :name="name"
       :type="type"
       :placeholder="placeholder"
-      class="text-purple-700 h-16 text-lg p-4 uppercase border-2 ring-2 ring-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+      class="text-purple-700 h-16 text-lg p-4 border-2 ring-2 ring-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
     />
   </div>
 </template>
@@ -14,15 +14,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     label: string
     name?: string
     placeholder?: string
     type?: string
+    modelValue?: string
   }>(),
   {
-    type: 'text'
+    type: 'text',
+    modelValue: ''
   }
 )
 const value = ref('')
@@ -30,4 +32,10 @@ const emit = defineEmits(['update:modelValue'])
 watch(value, (newValue) => {
   emit('update:modelValue', newValue)
 })
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    value.value = newValue
+  }
+)
 </script>
