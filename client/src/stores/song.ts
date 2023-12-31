@@ -23,10 +23,18 @@ export const useSongStore = defineStore('song', () => {
     currentSong.value = song
   }
 
+  const updateSongStatus = (id: string, status: 'played' | 'playing') =>
+    useFetch(`${SONGS_URL}/${id}/status`)
+      .patch({
+        status: status
+      })
+      .json<Song>()
+
   return {
     currentSong,
     fetchSongs,
     addSong,
-    setCurrentSong
+    setCurrentSong,
+    updateSongStatus
   }
 })
