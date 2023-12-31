@@ -1,10 +1,17 @@
 import mongoose from 'mongoose';
 import { models } from '~/config/schema';
-import { AddSongBody } from '~/models/song.model';
+import { AddSongBody, UpdateSongStatusBody } from '~/models/song.model';
 
 export const songRepository = {
 	getSongs: async (userId: string) => {
 		return models.Song.aggregate([
+			{
+				$match: {
+					status: {
+						$in: ['pending', 'playing'],
+					},
+				},
+			},
 			{
 				$lookup: {
 					from: 'votes',
@@ -57,6 +64,9 @@ export const songRepository = {
 							},
 						],
 					},
+					playing: {
+						$eq: ['$status', 'playing'],
+					},
 				},
 			},
 			{
@@ -79,9 +89,10 @@ export const songRepository = {
 			},
 			{
 				$sort: {
+					playing: -1,
 					upVotes: -1,
 					downVotes: 1,
-					createdAt: -1,
+					createdAt: 1,
 				},
 			},
 		]);
@@ -97,5 +108,17 @@ export const songRepository = {
 
 	deleteSong: async (id: string) => {
 		return models.Song.deleteOne({ _id: id });
+	},
+
+	updateSongStatus: async (id: string, { status }: UpdateSongStatusBody) => {
+		return models.Song.findOneAndUpdate(
+			{ _id: id },
+			{
+				$set: {
+					status,
+				},
+			},
+			{ new: true }
+		);
 	},
 };

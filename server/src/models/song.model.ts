@@ -1,6 +1,12 @@
 import Elysia, { Static, t } from 'elysia';
 import { UserModel } from '~/models/user.model';
 
+export enum SongStatus {
+	PLAYING = 'playing',
+	PENDING = 'pending',
+	PLAYED = 'played',
+}
+
 export const SongModel = t.Object(
 	{
 		_id: t.Any(),
@@ -9,6 +15,7 @@ export const SongModel = t.Object(
 		createdAt: t.Union([t.String({ format: 'date-time' }), t.Date()]),
 		addedBy: t.Union([t.String(), UserModel]),
 		thumbnail: t.String(),
+		status: t.Enum(SongStatus),
 	},
 	{
 		$id: 'Song',
@@ -22,8 +29,13 @@ export const AddSongBodyModel = t.Pick(SongModel, [
 	'thumbnail',
 ]);
 
+export const UpdateSongStatusBodyModel = t.Object({
+	status: t.Enum(SongStatus),
+});
+
 export type Song = Static<typeof SongModel>;
 export type AddSongBody = Static<typeof AddSongBodyModel>;
+export type UpdateSongStatusBody = Static<typeof UpdateSongStatusBodyModel>;
 
 export const songModel = new Elysia().model({
 	song: SongModel,
@@ -37,4 +49,5 @@ export const songModel = new Elysia().model({
 			userDownVoted: t.Boolean(),
 		})
 	),
+	'song.updateStatus': UpdateSongStatusBodyModel,
 });

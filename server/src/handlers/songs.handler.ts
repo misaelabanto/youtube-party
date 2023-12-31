@@ -19,11 +19,16 @@ export const songsHandler = new Elysia()
 			tags: ['songs'],
 		},
 	})
-	.delete('/songs/:id', ({ params }) => songRepository.deleteSong(params.id), {
-		params: t.Object({
-			id: t.String(),
-		}),
-		detail: {
-			tags: ['songs'],
-		},
-	});
+	.patch(
+		'/songs/:id/status',
+		({ params, body }) => songRepository.updateSongStatus(params.id, body),
+		{
+			body: 'song.updateStatus',
+			params: t.Object({
+				id: t.String(),
+			}),
+			detail: {
+				tags: ['songs'],
+			},
+		}
+	);
