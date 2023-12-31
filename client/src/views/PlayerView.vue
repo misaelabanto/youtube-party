@@ -10,21 +10,33 @@
     <div v-else>
       <p>Aún no hay canciones</p>
     </div>
-    <PlayerActions
-      @pause="playing = false"
-      @play="playing = true"
-      @next="nextVideo"
-      @previous="previousVideo"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
-import PlayerActions from '@/components/molecules/PlayerActions.vue'
 import YoutubePlayer from '@/components/molecules/YoutubePlayer.vue'
 import { useSongStore } from '@/stores/song'
+import { useWebSocket } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 
+useWebSocket(`${import.meta.env.VITE_API_URL.replace('http', 'ws')}/ws`, {
+  autoReconnect: true,
+  heartbeat: true,
+  onMessage: (_ws, event) => {
+    if (event.data === 'next') {
+      nextVideo()
+    }
+    if (event.data === 'previous') {
+      previousVideo()
+    }
+    if (event.data === 'pause') {
+      playing.value = false
+    }
+    if (event.data === 'play') {
+      playing.value = true
+    }
+  }
+})
 const songStore = useSongStore()
 const playing = ref(true)
 const { data: songs, onFetchResponse } = songStore.fetchSongs()
