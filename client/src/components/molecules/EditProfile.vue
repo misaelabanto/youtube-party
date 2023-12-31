@@ -1,5 +1,11 @@
 <template>
-  <div class="flex flex-col" v-if="profile">
+  <form
+    class="flex flex-col"
+    v-if="profile"
+    @submit.prevent="
+      $emit('save', { name: profile.name, emoji: profile.emoji })
+    "
+  >
     <YInput
       v-model="profile.name"
       label="Nombre"
@@ -9,10 +15,11 @@
     <YButton
       @click="$emit('save', { name: profile.name, emoji: profile.emoji })"
       class="mt-4"
+      :loading="loading"
     >
       {{ saveButtonName }}
     </YButton>
-  </div>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -25,6 +32,7 @@ import { onMounted, reactive } from 'vue'
 const props = defineProps<{
   modelValue?: User
   saveButtonName?: string
+  loading: boolean
 }>()
 
 const profile = reactive<Partial<User>>({})
