@@ -2,8 +2,8 @@
   <div class="fixed inset-x-0 bottom-0 bg-gray-800 shadow shadow-xl">
     <div class="flex justify-between max-w-md mx-auto py-4 px-8">
       <YBottonSheetButton
-        @click="setTabActive('queue')"
-        :active="tabActive === 'queue'"
+        :active="active === 'queue'"
+        @click="$emit('update:active', 'queue')"
         to="/queue"
       >
         <template #icon>
@@ -12,8 +12,8 @@
         Cola
       </YBottonSheetButton>
       <YBottonSheetButton
-        @click="setTabActive('search')"
-        :active="tabActive === 'search'"
+        :active="active === 'search'"
+        @click="$emit('update:active', 'search')"
         to="/"
       >
         <template #icon>
@@ -22,8 +22,8 @@
         Buscar
       </YBottonSheetButton>
       <YBottonSheetButton
-        @click="setTabActive('profile')"
-        :active="tabActive === 'profile'"
+        :active="active === 'profile'"
+        @click="$emit('update:active', 'profile')"
         to="/profile"
       >
         <template #icon>
@@ -37,6 +37,11 @@
 
 <script lang="ts" setup>
 import YBottonSheetButton from '@/components/atoms/YBottonSheetButton.vue'
-import { useAppStore } from '@/stores/app'
-const { tabActive, setTabActive } = useAppStore()
+
+defineProps<{
+  active: string
+}>()
+defineEmits<{
+  (e: 'update:active', value: 'queue' | 'search' | 'profile'): void
+}>()
 </script>
