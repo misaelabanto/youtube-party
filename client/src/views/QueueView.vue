@@ -20,14 +20,31 @@
 
 <script setup lang="ts">
 import YSongItem from '@/components/atoms/YSongItem.vue'
+import { useAlertStore } from '@/stores/alert'
 import { useProfileStore } from '@/stores/profile'
 import { useSongStore } from '@/stores/song'
 import { useVoteStore } from '@/stores/vote'
+import { useWebSocket } from '@vueuse/core'
 
 const { fetchSongs } = useSongStore()
+const { show } = useAlertStore()
 const { data: songs, execute } = fetchSongs()
 const { createVote } = useVoteStore()
 const { profile } = useProfileStore()
+const { ws } = useWebSocket(
+  `${import.meta.env.VITE_API_URL.replace('http', 'ws')}/ws`,
+  {
+    autoReconnect: true,
+    heartbeat: true
+  }
+)
+
+ws.value?.addEventListener('message', (event) => {
+  if (event.data === 'vote') {
+    execute()
+    show('info', 'Alguien votó por una canción')
+  }
+})
 
 const addVote = async (songId: string, type: 'up' | 'down') => {
   await createVote({
