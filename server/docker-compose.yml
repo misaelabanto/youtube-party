@@ -1,0 +1,11 @@
+# build and start the container:
+version: '3.3'
+services:
+  party-backend:
+    build: .
+    ports:
+      - '3018:3000'
+    volumes:
+      - .:/code
+    env_file:
+      - .env
