@@ -8,10 +8,14 @@ export const voteRepository = {
 	create(createVoteBody: CreateVoteBody) {
 		return models.Vote.findOneAndUpdate(
 			{
-				user: createVoteBody.user,
-				song: createVoteBody.song,
+				user: new Object(createVoteBody.user),
+				song: new Object(createVoteBody.song),
 			},
-			createVoteBody,
+			{
+				$set: {
+					vote: createVoteBody.voteType,
+				},
+			},
 			{ upsert: true, new: true }
 		).lean();
 	},
