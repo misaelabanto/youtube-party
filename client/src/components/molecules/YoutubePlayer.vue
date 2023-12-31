@@ -1,5 +1,7 @@
 <template>
-  <div ref="youtube"></div>
+  <div class="md:h-screen">
+    <div ref="youtube"></div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -33,8 +35,11 @@ const youtube = ref()
 const { onReady, onStateChange, instance } = usePlayer(props.videoId, youtube, {
   cookie: false,
   playerVars: {
-    mute: 0
-  }
+    mute: 0,
+    controls: 0
+  },
+  height: '100%',
+  width: '100%'
 })
 
 onStateChange((event) => {
