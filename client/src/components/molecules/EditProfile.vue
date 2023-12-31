@@ -35,7 +35,7 @@ onMounted(() => {
     props.modelValue?.name
       ? props.modelValue
       : {
-          name: 'John Locke',
+          name: '',
           emoji: '🔒'
         }
   )

@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import EmojiPicker from 'vue3-emoji-picker'
 const currentEmoji = ref('')
 const show = ref(false)
@@ -151,5 +151,11 @@ onMounted(() => {
 const props = defineProps<{
   modelValue?: string
 }>()
+watch(
+  () => props.modelValue,
+  (value) => {
+    currentEmoji.value = value!
+  }
+)
 const emit = defineEmits(['update:model-value'])
 </script>
