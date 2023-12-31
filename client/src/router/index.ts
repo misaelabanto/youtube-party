@@ -8,13 +8,18 @@ import {
 const verifySavedName: NavigationGuardWithThis<unknown> = (to, from, next) => {
   const savedProfile = localStorage.getItem('profile')
   if (savedProfile) {
-    if (to.name === 'login') {
-      return next({ name: 'search' })
-    }
     next()
   } else {
     next({ name: 'login' })
   }
+}
+
+const verifyLogin: NavigationGuardWithThis<unknown> = (to, from, next) => {
+  const savedProfile = localStorage.getItem('profile')
+  if (savedProfile && to.name === 'login') {
+    return next({ name: 'search' })
+  }
+  next()
 }
 
 const router = createRouter({
@@ -44,6 +49,11 @@ const router = createRouter({
           path: 'queue',
           name: 'queue',
           component: () => import('../views/QueueView.vue')
+        },
+        {
+          path: 'controls',
+          name: 'controls',
+          component: () => import('../views/ControlsView.vue')
         }
       ]
     },
@@ -51,7 +61,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue'),
-      beforeEnter: [verifySavedName]
+      beforeEnter: [verifyLogin]
     }
   ]
 })
