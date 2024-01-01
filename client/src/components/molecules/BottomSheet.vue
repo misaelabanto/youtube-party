@@ -7,7 +7,7 @@
         to="/queue"
       >
         <template #icon>
-          <div class="i-mdi:playlist-music"></div>
+          <span class="text-blueGray i-mdi:playlist-music"></span>
         </template>
         Cola
       </YBottonSheetButton>
@@ -17,7 +17,7 @@
         to="/"
       >
         <template #icon>
-          <div class="i-mdi:magnify"></div>
+          <span class="text-blueGray i-mdi:magnify"></span>
         </template>
         Buscar
       </YBottonSheetButton>
@@ -27,7 +27,7 @@
         to="/profile"
       >
         <template #icon>
-          <div class="i-mdi:account"></div>
+          <span class="text-blueGray i-mdi:account"></span>
         </template>
         Perfil
       </YBottonSheetButton>

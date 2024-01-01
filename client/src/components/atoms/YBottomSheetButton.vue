@@ -39,8 +39,6 @@ defineEmits(['click'])
 
 const activeClasses = computed(() => {
   return {
-    'text-white': props.active,
-    'text-gray': !props.active,
     'bg-purple-9': props.active
   }
 })

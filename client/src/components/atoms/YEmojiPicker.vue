@@ -11,6 +11,7 @@
     </div>
     <EmojiPicker
       v-if="show"
+      native
       disable-skin-tones
       @select="(emoji) => onEmojiSelect(emoji.i)"
     />
@@ -154,7 +155,11 @@ const props = defineProps<{
 watch(
   () => props.modelValue,
   (value) => {
-    currentEmoji.value = value!
+    if (!value) {
+      currentEmoji.value = getRandomEmoji()
+    } else {
+      currentEmoji.value = value
+    }
   }
 )
 const emit = defineEmits(['update:model-value'])

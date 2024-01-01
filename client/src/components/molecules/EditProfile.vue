@@ -38,15 +38,10 @@ const props = defineProps<{
 const profile = reactive<Partial<User>>({})
 
 onMounted(() => {
-  Object.assign(
-    profile,
-    props.modelValue?.name
-      ? props.modelValue
-      : {
-          name: '',
-          emoji: '🔒'
-        }
-  )
+  if (props.modelValue) {
+    profile.name = props.modelValue.name
+    profile.emoji = props.modelValue.emoji
+  }
 })
 
 defineEmits(['save'])

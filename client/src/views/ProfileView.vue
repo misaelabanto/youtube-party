@@ -21,6 +21,11 @@ const loading = ref<boolean>(false)
 const updateUser = async (user: Omit<User, '_id'>) => {
   loading.value = true
   await profileStore.updateUser(profile.value._id, user)
+  profileStore.saveProfile({
+    _id: profile.value._id,
+    emoji: user.emoji,
+    name: user.name
+  })
   loading.value = false
 }
 </script>
