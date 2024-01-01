@@ -36,11 +36,6 @@ const router = createRouter({
           component: () => import('../views/ProfileView.vue')
         },
         {
-          path: 'player',
-          name: 'player',
-          component: () => import('../views/PlayerView.vue')
-        },
-        {
           path: '',
           name: 'search',
           component: () => import('../views/SearchView.vue')
@@ -62,7 +57,12 @@ const router = createRouter({
       name: 'login',
       component: () => import('../views/LoginView.vue'),
       beforeEnter: [verifyLogin]
-    }
+    },
+    {
+      path: '/player',
+      name: 'player',
+      component: () => import('../views/PlayerView.vue')
+    },
   ]
 })
 
