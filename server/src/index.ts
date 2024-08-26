@@ -1,3 +1,4 @@
+import cors from '@elysiajs/cors';
 import { swagger } from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
 import { searchHandler } from '~/handlers/search.handler';
@@ -9,28 +10,7 @@ await import('~/config/database');
 
 const app = new Elysia()
 	.get('/', () => ({ message: 'Hello Elysia' }))
-	.options('/*', ({ set }) => {
-		set.headers['X-Powered-By'] = 'Elysia';
-		set.headers['Access-Control-Allow-Origin'] = '*';
-		set.headers['Access-Control-Allow-Methods'] = '*';
-		set.headers['Access-Control-Allow-Headers'] = '*';
-		set.headers['Access-Control-Allow-Credentials'] = 'true';
-		set.headers['Expose-Headers'] = 'Content-Length';
-	})
-	.onAfterHandle(({ set, path, request }) => {
-		set.headers['X-Powered-By'] = 'Elysia';
-		set.headers['Access-Control-Allow-Origin'] = '*';
-		set.headers['Access-Control-Allow-Methods'] = '*';
-		set.headers['Access-Control-Allow-Headers'] = '*';
-		set.headers['Access-Control-Allow-Credentials'] = 'true';
-		set.headers['Expose-Headers'] = 'Content-Length';
-		if (path.includes('votes') && request.method === 'POST') {
-			app.server?.publish('party', 'vote');
-		}
-		if (path.includes('songs') && request.method === 'POST') {
-			app.server?.publish('party', 'song');
-		}
-	})
+	.use(cors())
 	.use(
 		swagger({
 			documentation: {
@@ -47,16 +27,6 @@ const app = new Elysia()
 	.use(usersHandler)
 	.use(votesHandler)
 	.use(wsHandler)
-	.onError(({ error, set }) => {
-		set.headers['X-Powered-By'] = 'Elysia';
-		set.headers['Access-Control-Allow-Origin'] = '*';
-		set.headers['Access-Control-Allow-Methods'] = '*';
-		set.headers['Access-Control-Allow-Headers'] = '*';
-		set.headers['Access-Control-Allow-Credentials'] = 'true';
-		set.headers['Expose-Headers'] = 'Content-Length';
-		console.error(error);
-		return error.message;
-	})
 	.listen(3000);
 
 console.log(

@@ -99,15 +99,16 @@ export const songRepository = {
 	},
 
 	getSong: async (id: string) => {
-		return models.Song.findById(id);
+		return models.Song.findById(id).lean();
 	},
 
 	addSong: async (addSongBody: AddSongBody) => {
-		return models.Song.create(addSongBody);
+		const song = await models.Song.create(addSongBody);
+		return song.toObject();
 	},
 
 	deleteSong: async (id: string) => {
-		return models.Song.deleteOne({ _id: id });
+		return models.Song.deleteOne({ _id: id }).lean();
 	},
 
 	updateSongStatus: async (id: string, { status }: UpdateSongStatusBody) => {
@@ -119,6 +120,6 @@ export const songRepository = {
 				},
 			},
 			{ new: true }
-		);
+		).lean();
 	},
 };

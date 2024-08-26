@@ -3,7 +3,7 @@ import { CreateUserBody, User } from '~/models/user.model';
 
 export const userRepository = {
 	getUser: async (id: string) => {
-		return models.User.findById(id);
+		return models.User.findById(id).lean();
 	},
 
 	getUsers: async () => {
@@ -11,11 +11,12 @@ export const userRepository = {
 		return users;
 	},
 
-	createUser: (createUserBody: CreateUserBody) => {
-		return models.User.create(createUserBody);
+	createUser: async (createUserBody: CreateUserBody) => {
+		const user = await models.User.create(createUserBody);
+		return user.toObject();
 	},
 
 	updateUser: (id: string, updateUserBody: Partial<User>) => {
-		return models.User.updateOne({ _id: id }, updateUserBody);
+		return models.User.updateOne({ _id: id }, updateUserBody).lean();
 	},
 };

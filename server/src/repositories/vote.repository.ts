@@ -13,13 +13,13 @@ export const voteRepository = {
 			},
 			{
 				$set: {
-					vote: createVoteBody.voteType,
+					voteType: createVoteBody.voteType,
 				},
 			},
 			{ upsert: true, new: true }
 		).lean();
 	},
 	delete(id: string) {
-		return models.Vote.deleteOne({ _id: id });
+		return models.Vote.deleteOne({ _id: id }).lean();
 	},
 };
