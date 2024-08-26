@@ -1,7 +1,3 @@
-Here's an improved version of your README:
-
----
-
 # Youtube Party
 
 Youtube Party is an application designed to let you add and play music with your family and friends in a collaborative environment.
@@ -57,7 +53,3 @@ A functional example of the app is running at: [https://party.misaelabanto.com](
 ## Enjoy
 
 This app was created to enjoy music with loved ones. Have fun!
-
----
-
-This version clarifies each section, adds some structure, and maintains a professional tone. If you need further adjustments or additional sections, feel free to ask.
