@@ -12,6 +12,7 @@ export enum WSEvents {
 export const wsHandler = new Elysia().ws('/ws', {
 	open(ws) {
 		ws.subscribe('party');
+		console.log('khe');
 	},
 	message(ws, message) {
 		if (

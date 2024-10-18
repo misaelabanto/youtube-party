@@ -4,6 +4,9 @@ import { songRepository } from '~/repositories/song.repository';
 
 export const songsHandler = new Elysia()
 	.use(songModel)
+	.get('/songs/previous', () => {
+		return songRepository.getPreviousSong();
+	})
 	.get('/songs', ({ query }) => songRepository.getSongs(query.userId), {
 		response: 'songs',
 		query: t.Object({
