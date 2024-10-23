@@ -13,7 +13,6 @@ export const searchHandler = new Elysia().get(
 		const response = await fetch(url.toString());
 		const data =
 			(await response.json()) as youtube_v3.Schema$SearchListResponse;
-		console.log(data);
 		return data.items;
 	},
 	{
