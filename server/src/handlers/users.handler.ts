@@ -24,7 +24,6 @@ export const usersHandler = new Elysia()
 			if (!user) {
 				throw new Error('User not found');
 			}
-			console.log(user);
 			return user;
 		},
 		{
