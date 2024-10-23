@@ -45,24 +45,36 @@ export const songRepository = {
 						},
 					},
 					userUpVoted: {
-						$and: [
-							{
-								$in: [new mongoose.Types.ObjectId(userId), '$votes.user'],
+						$anyElementTrue: {
+							$map: {
+								input: '$votes',
+								as: 'vote',
+								in: {
+									$and: [
+										{
+											$eq: ['$$vote.user', new mongoose.Types.ObjectId(userId)],
+										},
+										{ $eq: ['$$vote.voteType', 'up'] },
+									],
+								},
 							},
-							{
-								$in: ['up', '$votes.voteType'],
-							},
-						],
+						},
 					},
 					userDownVoted: {
-						$and: [
-							{
-								$in: [new mongoose.Types.ObjectId(userId), '$votes.user'],
+						$anyElementTrue: {
+							$map: {
+								input: '$votes',
+								as: 'vote',
+								in: {
+									$and: [
+										{
+											$eq: ['$$vote.user', new mongoose.Types.ObjectId(userId)],
+										},
+										{ $eq: ['$$vote.voteType', 'down'] },
+									],
+								},
 							},
-							{
-								$in: ['down', '$votes.voteType'],
-							},
-						],
+						},
 					},
 					playing: {
 						$eq: ['$status', 'playing'],
