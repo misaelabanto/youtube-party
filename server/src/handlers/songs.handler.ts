@@ -1,4 +1,5 @@
 import Elysia, { t } from 'elysia';
+import { WSEvents } from '~/handlers/ws.handler';
 import { songModel } from '~/models/song.model';
 import { songRepository } from '~/repositories/song.repository';
 
@@ -13,12 +14,19 @@ export const songsHandler = new Elysia()
 			tags: ['songs'],
 		},
 	})
-	.post('/songs', ({ body }) => songRepository.addSong(body), {
-		body: 'song.add',
-		detail: {
-			tags: ['songs'],
+	.post(
+		'/songs',
+		({ body, server }) => {
+			server?.publish('party', WSEvents.SONG);
+			return songRepository.addSong(body);
 		},
-	})
+		{
+			body: 'song.add',
+			detail: {
+				tags: ['songs'],
+			},
+		}
+	)
 	.patch(
 		'/songs/:id/status',
 		({ params, body }) => songRepository.updateSongStatus(params.id, body),
