@@ -1,4 +1,4 @@
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
 
 export enum WSEvents {
 	VOTE = 'vote',
@@ -7,9 +7,11 @@ export enum WSEvents {
 	PREVIOUS = 'previous',
 	PAUSE = 'pause',
 	PLAY = 'play',
+	PING = 'ping',
 }
 
 export const wsHandler = new Elysia().ws('/ws', {
+	body: t.Enum(WSEvents),
 	open(ws) {
 		ws.subscribe('party');
 	},
