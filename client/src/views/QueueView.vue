@@ -31,6 +31,7 @@ const { show } = useAlertStore()
 const { data: songs, execute } = fetchSongs()
 const { createVote } = useVoteStore()
 const { profile } = useProfileStore()
+
 useWebSocket(`${import.meta.env.VITE_API_URL.replace('http', 'ws')}/ws`, {
   autoReconnect: true,
   heartbeat: true,
