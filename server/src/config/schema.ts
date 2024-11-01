@@ -55,6 +55,16 @@ const userSchema = new mongoose.Schema(
 	{
 		name: String,
 		emoji: String,
+		role: {
+			type: String,
+			enum: ['admin', 'user'],
+			default: 'user',
+		},
+		auth: {
+			accessToken: String,
+			refreshToken: String,
+			expiresAt: Date,
+		},
 	},
 	{
 		versionKey: false,
