@@ -1,5 +1,7 @@
 <template>
-  <div class="fixed inset-x-0 bottom-0 bg-gray-800 shadow shadow-xl">
+  <div
+    class="fixed inset-x-0 bottom-0 bg-white dark:bg-gray-800 shadow shadow-black shadow-2xl"
+  >
     <div class="flex justify-between max-w-md mx-auto py-4 px-8">
       <YBottonSheetButton
         :active="active === 'queue'"
@@ -7,7 +9,7 @@
         to="/queue"
       >
         <template #icon>
-          <span class="text-blueGray i-mdi:playlist-music"></span>
+          <span class="text-gray-400 i-mdi:playlist-music"></span>
         </template>
         Cola
       </YBottonSheetButton>
@@ -17,7 +19,7 @@
         to="/"
       >
         <template #icon>
-          <span class="text-blueGray i-mdi:magnify"></span>
+          <span class="text-gray-400 i-mdi:magnify"></span>
         </template>
         Buscar
       </YBottonSheetButton>
@@ -27,7 +29,7 @@
         to="/profile"
       >
         <template #icon>
-          <span class="text-blueGray i-mdi:account"></span>
+          <span class="text-gray-400 i-mdi:account"></span>
         </template>
         Perfil
       </YBottonSheetButton>
