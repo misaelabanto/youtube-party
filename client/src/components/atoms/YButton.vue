@@ -1,8 +1,8 @@
 <template>
   <button
     @click="$emit('click')"
-    :disabled="loading"
-    class="h-16 bg-purple-500 text-lg font-bold text-white hover:bg-purple-600 focus:ring-blue-200 rounded-lg"
+    :disabled="loading || disabled"
+    class="h-16 bg-orange-500 text-lg font-bold text-white disabled:bg-orange-500 hover:bg-orange-600 focus:ring-blue-200 rounded-lg"
   >
     <template v-if="loading">
       <YSpinner />
@@ -19,6 +19,7 @@ withDefaults(
   defineProps<{
     loading?: boolean
     type?: string
+    disabled?: boolean
   }>(),
   {
     type: 'button'

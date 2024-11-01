@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col">
-    <label class="text-purple-300" for="name">{{ label }}</label>
+    <label class="text-orange-300" for="name">{{ label }}</label>
     <input
       v-model="value"
       :name="name"
       :type="type"
       :placeholder="placeholder"
-      class="text-purple-700 h-16 text-lg p-4 border-2 ring-2 ring-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+      class="text-orange-700 h-16 text-lg p-4 border-2 ring-2 ring-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
     />
   </div>
 </template>
