@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import BottomSheet from '../molecules/BottomSheet.vue'
 
@@ -21,9 +21,7 @@ const { tabActive } = storeToRefs(useAppStore())
 
 const route = useRoute()
 
-onMounted(() => {
-  console.log(route.path)
-
+const handleRouteChange = () => {
   if (route.path === '/') {
     tabActive.value = 'search'
   } else if (route.path === '/queue') {
@@ -31,5 +29,16 @@ onMounted(() => {
   } else if (route.path === '/profile') {
     tabActive.value = 'profile'
   }
+}
+
+onMounted(() => {
+  handleRouteChange()
 })
+
+watch(
+  () => route.path,
+  () => {
+    handleRouteChange()
+  }
+)
 </script>
