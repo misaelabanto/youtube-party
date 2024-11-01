@@ -2,6 +2,7 @@ import Elysia, { t } from 'elysia';
 import { WSEvents } from '~/handlers/ws.handler';
 import { songModel } from '~/models/song.model';
 import { songRepository } from '~/repositories/song.repository';
+import { spotifyService } from '~/services/spotify.service';
 
 export const songsHandler = new Elysia()
 	.use(songModel)
@@ -16,8 +17,9 @@ export const songsHandler = new Elysia()
 	})
 	.post(
 		'/songs',
-		({ body, server }) => {
+		async ({ body, server }) => {
 			server?.publish('party', WSEvents.SONG);
+			await spotifyService.addToPlaylist(body.videoId);
 			return songRepository.addSong(body);
 		},
 		{

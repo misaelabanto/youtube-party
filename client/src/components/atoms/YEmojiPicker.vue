@@ -5,7 +5,7 @@
       class="text-white text-[80px] w-[100px] h-[100px] text-center mx-auto"
       @click="onEmojiClick"
     >
-      <span class="border border-1 rounded-lg hover:border-purple-500">
+      <span class="border border-1 rounded-lg hover:border-orange-500">
         {{ currentEmoji }}
       </span>
     </div>

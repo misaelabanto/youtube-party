@@ -11,7 +11,8 @@
     "@elysiajs/swagger": "^1.1.1",
     "@googleapis/youtube": "^19.0.0",
     "elysia": "^1.1.7",
-    "mongoose": "^8.5.4"
+    "mongoose": "^8.5.4",
+    "customOfetch": "^1.4.1"
   },
   "devDependencies": {
     "bun-types": "latest"

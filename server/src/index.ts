@@ -1,6 +1,8 @@
 import cors from '@elysiajs/cors';
 import { swagger } from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
+import { authHandler } from '~/handlers/auth.handler';
+import { playerHandler } from '~/handlers/player.handler';
 import { searchHandler } from '~/handlers/search.handler';
 import { songsHandler } from '~/handlers/songs.handler';
 import { usersHandler } from '~/handlers/users.handler';
@@ -26,6 +28,8 @@ const app = new Elysia()
 	.use(songsHandler)
 	.use(usersHandler)
 	.use(votesHandler)
+	.use(authHandler)
+	.use(playerHandler)
 	.use(wsHandler)
 	.listen(3000);
 

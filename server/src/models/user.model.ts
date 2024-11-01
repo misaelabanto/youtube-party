@@ -5,6 +5,14 @@ export const UserModel = t.Object(
 		_id: t.Any(),
 		name: t.String({ minLength: 1 }),
 		emoji: t.String(),
+		role: t.Optional(t.String()),
+		auth: t.Optional(
+			t.Object({
+				accessToken: t.String(),
+				refreshToken: t.String(),
+				expiresAt: t.Date(),
+			})
+		),
 	},
 	{
 		$id: 'User',
@@ -20,5 +28,5 @@ export const userModel = new Elysia().model({
 	user: UserModel,
 	'user.create': CreateUserBodyModel,
 	'user.update': UpdateUserBodyModel,
-	users: t.Array(UserModel),
+	users: t.Array(t.Omit(UserModel, ['auth'])),
 });

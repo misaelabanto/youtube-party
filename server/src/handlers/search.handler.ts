@@ -1,19 +1,11 @@
-import type { youtube_v3 } from '@googleapis/youtube';
 import Elysia, { t } from 'elysia';
+import { spotifyService } from '~/services/spotify.service';
 
 export const searchHandler = new Elysia().get(
 	'/search',
 	async ({ query }) => {
-		const url = new URL('https://www.googleapis.com/youtube/v3/search');
-		url.search = new URLSearchParams({
-			part: 'snippet',
-			q: query.q || '',
-			key: process.env.YOUTUBE_API_KEY || '',
-		}).toString();
-		const response = await fetch(url.toString());
-		const data =
-			(await response.json()) as youtube_v3.Schema$SearchListResponse;
-		return data.items;
+		const response = await spotifyService.searchSongs(query.q);
+		return response.tracks.items;
 	},
 	{
 		query: t.Object({

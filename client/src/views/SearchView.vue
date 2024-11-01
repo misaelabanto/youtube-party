@@ -7,16 +7,23 @@
     />
     <form class="flex flex-col" @submit.prevent="search">
       <YInput label="Buscar canción" v-model="songSearchText" />
-      <YButton @click="search" type="submit" :loading="isFetching">
+      <YButton
+        @click="search"
+        type="submit"
+        :loading="isFetching"
+        :disabled="!songSearchText"
+      >
         Buscar
       </YButton>
     </form>
     <div class="my-5 shadow shadow-lg">
-      <div v-for="video in videos" :key="video?.id?.videoId">
-        <YVideoPreview
+      <div v-for="track in tracks" :key="track?.id">
+        <YTrackPreview
           :loading="isAdding"
-          :video="video"
+          :track="track"
           @add="addSongToQueue"
+          :playing="track?.id === currentTrackId"
+          @toggle-play="handleTogglePlay(track.id)"
         />
       </div>
     </div>
@@ -26,10 +33,10 @@
 <script setup lang="ts">
 import YButton from '@/components/atoms/YButton.vue'
 import YInput from '@/components/atoms/YInput.vue'
-import YVideoPreview from '@/components/atoms/YVideoPreview.vue'
+import YTrackPreview from '@/components/atoms/YTrackPreview.vue'
 import SongConfirmation from '@/components/molecules/SongConfirmation.vue'
 import type { Song } from '@/interfaces/song'
-import type { Video } from '@/interfaces/video'
+import type { Track } from '@/interfaces/track'
 import { useProfileStore } from '@/stores/profile'
 import { useSongStore } from '@/stores/song'
 import { useFetch } from '@vueuse/core'
@@ -41,13 +48,15 @@ const { addSong } = useSongStore()
 const { profile } = useProfileStore()
 const songSearchText = ref('')
 const isAdding = ref(false)
-const videos = ref<Video[]>([])
+const tracks = ref<Track[]>([])
+const currentTrackId = ref('')
+
 const url = computed(() => {
   return `${import.meta.env.VITE_API_URL}/search?q=${songSearchText.value}`
 })
 const viewConfirmation = ref(false)
 
-const { data, execute, isFetching } = useFetch<Video[]>(url, {
+const { data, execute, isFetching } = useFetch<Track[]>(url, {
   immediate: false,
   initialData: []
 })
@@ -64,8 +73,16 @@ const goToQueue = () => {
 
 const goToSearch = () => {
   viewConfirmation.value = false
-  videos.value = []
+  tracks.value = []
   songSearchText.value = ''
+}
+
+const handleTogglePlay = (trackId: string) => {
+  if (currentTrackId.value === trackId) {
+    currentTrackId.value = ''
+    return
+  }
+  currentTrackId.value = trackId
 }
 
 const addSongToQueue = async (song: Pick<Song, 'title' | 'thumbnail'>) => {
@@ -80,6 +97,6 @@ const addSongToQueue = async (song: Pick<Song, 'title' | 'thumbnail'>) => {
 
 watch(data, () => {
   if (!data.value) return
-  videos.value = data.value
+  tracks.value = data.value
 })
 </script>
