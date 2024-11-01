@@ -1,4 +1,5 @@
 import { Elysia, t } from 'elysia';
+import { spotifyService } from '~/services/spotify.service';
 
 export enum WSEvents {
 	VOTE = 'vote',
@@ -25,7 +26,18 @@ export const wsHandler = new Elysia().ws('/ws', {
 			].includes(message as WSEvents)
 		) {
 			ws.publish('party', message);
-			console.log('message', message);
+			if (message === WSEvents.NEXT) {
+				spotifyService.nextSong();
+			}
+			if (message === WSEvents.PREVIOUS) {
+				spotifyService.previousSong();
+			}
+			if (message === WSEvents.PAUSE) {
+				spotifyService.handlePlayerState('pause');
+			}
+			if (message === WSEvents.PLAY) {
+				spotifyService.handlePlayerState('play');
+			}
 		} else {
 			ws.send(message);
 		}
